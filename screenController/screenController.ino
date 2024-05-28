@@ -14,9 +14,9 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
   NEO_RGB            + NEO_KHZ800);
 
 double start[] = { 0.0, 255.0, 0.0 };
-double end[] = { 255.0, 0.0, 0.0 };
+double finish[] = { 255.0, 0.0, 0.0 };
 
-ColorInterpolator interpolator = ColorInterpolator(start, end);
+ColorInterpolator interpolator = ColorInterpolator(start, finish);
 
 void setup() {
   matrix.begin();
