@@ -29,18 +29,18 @@ int x    = matrix.width();
 int pass = 0;
 
 int target = 1;
-
+String inputText = "Connect Me!";
 
 void loop() {
   matrix.fillScreen(0);
   matrix.setCursor(x,3);
-  matrix.print(F("Connect Me!"));
+  matrix.print(inputText);
   double* currColor = interpolator.getColor();
   matrix.setTextColor(matrix.Color(currColor[0], currColor[1], currColor[2]));
   matrix.show();
   delay(50);
 
-  if(--x == -125){
+  if(--x == -((inputText.length() + 1) * 6)){
     x = matrix.width();
   }
 }
