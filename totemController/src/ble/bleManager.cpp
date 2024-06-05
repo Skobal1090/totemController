@@ -9,7 +9,6 @@ static BLEStringCharacteristic colorCharacteristic("0a704fd3-5dba-4194-9f40-ac8e
 
 static void (*onConnected)();
 static void (*onDisconnected)();
-static void (*onScanStarted)();
 static void (*onAttributesUpdated)(Attributes);
 static void (*onTextUpdated)(String);
 
@@ -80,10 +79,9 @@ void BleManager::scan(){
   BLE.poll();
 }
 
-void BleManager::setConnectionListener(void (&connected)(), void (&disconnected)(), void (&scanStarted)()){
+void BleManager::setConnectionListener(void (&connected)(), void (&disconnected)()){
   onConnected = connected;
   onDisconnected = disconnected;
-  onScanStarted = scanStarted;
 }
 
 void BleManager::setAttributesUpdatedListener(void (&attributesUpdated)(Attributes)){
