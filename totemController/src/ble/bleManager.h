@@ -1,15 +1,6 @@
 #include "Arduino.h"
 #include <stdint.h>
 
-class Attributes {
-  public:
-    Attributes(String parms) {}
-    int Mode;
-    int ScrollMode;
-    int ScrollSpeed;
-    uint8_t* colors;
-};
-
 class BleManager {
   public:
     void init();

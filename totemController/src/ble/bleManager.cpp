@@ -1,4 +1,5 @@
 #include "bleManager.h"
+#include "attributes.h"
 #include <ArduinoBLE.h>
 
 static BLEService totemService("6364e354-24f2-4048-881f-4943362d34d7"); // create service
