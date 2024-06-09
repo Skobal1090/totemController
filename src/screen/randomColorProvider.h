@@ -6,6 +6,7 @@ class RandomColorProvider : public ColorProvider {
   public:
     RandomColorProvider();
     virtual uint8_t* getColor();
+    virtual void setColors(uint8_t** inputColors);
 };
 
 #endif

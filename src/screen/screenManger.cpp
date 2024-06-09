@@ -10,13 +10,29 @@
 
 
 static String displayText = "Connect Me!";
-static String currText = displayText;
+static String nextText = displayText;
+
+static ColorProvider* displayProvider;
+static ColorProvider* nextProvider = displayProvider;
+
+static uint8_t displayScrollSpeed;
+static uint8_t nextScrollSpeed = displayScrollSpeed;
+
+static uint8_t displayScrollMode;
+static uint8_t nextScrollMode = displayScrollMode;
+
+static uint8_t** nextColors[10];
+
+SolidColorProvider* solidColorProvider = new SolidColorProvider();
+ColorInterpolator* colorInterpolator = new ColorInterpolator();
+RandomColorProvider* randomColorProvider = new RandomColorProvider();
+TwoColorSwapProvider* twoColorSwapProvider = new TwoColorSwapProvider();
+
 static int cursorPos = 0;
 static Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, 7,
         NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
         NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
         NEO_GRB            + NEO_KHZ800);
-static ColorProvider* provider;
 
 void ScreenManager::init(){
     matrix.begin();
@@ -24,44 +40,45 @@ void ScreenManager::init(){
     //sets default matrix settings
     matrix.setBrightness(10);
     cursorPos = 16;
-    provider = new SolidColorProvider(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
+    displayProvider = solidColorProvider;
+    displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
 }
 
 void ScreenManager::update(){
     matrix.fillScreen(0);
     matrix.setCursor(cursorPos,3);
     matrix.print(displayText);
-    uint8_t* currColor = provider->getColor();
+    uint8_t* currColor = displayProvider->getColor();
     matrix.setTextColor(matrix.Color(currColor[0], currColor[1], currColor[2]));
     matrix.show();
     delay(50);
 
     if(--cursorPos == -((displayText.length() + 1) * 6)){
         cursorPos = matrix.width();
-        if(displayText != currText){
-            displayText = currText;
+        if(displayText != nextText){
+            displayText = nextText;
         }
     }
 }
 
-void ScreenManager::setAttributes(Attributes nextAttributes){
+void ScreenManager::setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t** colors){
     
-    switch(nextAttributes.colorMode) {
+    switch(colorMode) {
     case 0: 
-        provider = new SolidColorProvider(nextAttributes.colors);
+        nextProvider = solidColorProvider;
         break;
     case 1: 
-        provider = new ColorInterpolator(nextAttributes.colors);
+        nextProvider = colorInterpolator;
         break;
     case 2:
-        provider = new RandomColorProvider();
+        nextProvider = randomColorProvider;
         break;
     case 3:
-        provider = new TwoColorSwapProvider(nextAttributes.colors);
+        nextProvider = twoColorSwapProvider;
         break;
     }  
 }  
 
 void ScreenManager::setText(String text){
-
+    nextText = text;
 }

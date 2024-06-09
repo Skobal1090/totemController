@@ -4,6 +4,7 @@
 class ColorProvider{
   public:
     virtual uint8_t* getColor() = 0;
+    virtual void setColors(uint8_t** inputColors);
 };
 
 #endif

@@ -17,3 +17,7 @@ uint8_t* RandomColorProvider::getColor(){
   }
   return randomColor;
 }
+
+void RandomColorProvider::setColors(uint8_t** inputColors){
+  
+}

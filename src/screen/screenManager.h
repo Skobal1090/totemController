@@ -8,7 +8,7 @@ class ScreenManager{
     public:
         void init();
         void update();
-        void setAttributes(Attributes nextAttributes);
+        void setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t** colors);
         void setText(String text);
 };
 

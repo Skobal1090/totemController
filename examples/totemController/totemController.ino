@@ -18,7 +18,7 @@ uint8_t solidColor[] = { 0.0, 0.0, 255.0 };
 
 int x    = matrix.width();
 String displayText = "Ayeeeeeeeeeeeeeeeee";
-String currText = displayText;
+String nextText = displayText;
 
 ColorProvider* provider;
 
@@ -36,7 +36,7 @@ void onAttributesUpdated(Attributes attrs){
 
 void onTextUpdated(String newText){
   Serial.println("text updated to: " + newText);
-  currText = newText;
+  nextText = newText;
 }
 
 void setup(){
@@ -85,8 +85,8 @@ void loop(){
 
   if(--x == -((displayText.length() + 1) * 6)){
     x = matrix.width();
-    if(displayText != currText){
-      displayText = currText;
+    if(displayText != nextText){
+      displayText = nextText;
     }
   }
 }

@@ -109,10 +109,8 @@ hsv startColor;
 hsv endColor;
 static uint8_t t;
 
-ColorInterpolator::ColorInterpolator(uint8_t** inputColors){
-  startColor = rgb2hsv((rgb){inputColors[0][0], inputColors[0][1], inputColors[0][2]});
-  endColor = rgb2hsv((rgb){inputColors[1][0], inputColors[1][1], inputColors[1][2]});
-  t = 0.0;
+ColorInterpolator::ColorInterpolator(){
+    
 }
 
 uint8_t ColorInterpolator::interpolateLinearly(uint8_t a, uint8_t b, uint8_t t){
@@ -143,4 +141,9 @@ uint8_t* ColorInterpolator::getColor(){
   color[1] = conv.g;
   color[2] = conv.b;
   return color;
+}
+void ColorInterpolator::setColors(uint8_t** inputColors){
+    startColor = rgb2hsv((rgb){inputColors[0][0], inputColors[0][1], inputColors[0][2]});
+    endColor = rgb2hsv((rgb){inputColors[1][0], inputColors[1][1], inputColors[1][2]});
+    t = 0.0;
 }
