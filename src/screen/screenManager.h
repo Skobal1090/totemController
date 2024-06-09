@@ -2,7 +2,7 @@
 #define _SCREEN_MANAGER_H
 #include "Arduino.h"
 #include <stdint.h>
-#include "attributes.h"
+#include "../model/attributes.h"
 
 class ScreenManager{
     public:

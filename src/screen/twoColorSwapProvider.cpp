@@ -2,9 +2,9 @@
 #include "Arduino.h"
 
 static uint8_t* colors[2];
-TwoColorSwapProvider::TwoColorSwapProvider(uint8_t* color1, uint8_t* color2){
-  colors[0] = color1;
-  colors[1] = color2;
+TwoColorSwapProvider::TwoColorSwapProvider(uint8_t** inputColors){
+  colors[0] = inputColors[0];
+  colors[1] = inputColors[1];
 }
 
 int selectedColor = 0;

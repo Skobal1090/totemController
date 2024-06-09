@@ -24,7 +24,7 @@ void ScreenManager::init(){
     //sets default matrix settings
     matrix.setBrightness(10);
     cursorPos = 16;
-    provider = new SolidColorProvider(new uint8_t[3]{255,255,255});
+    provider = new SolidColorProvider(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
 }
 
 void ScreenManager::update(){
@@ -45,23 +45,22 @@ void ScreenManager::update(){
 }
 
 void ScreenManager::setAttributes(Attributes nextAttributes){
-    /*
+    
     switch(nextAttributes.colorMode) {
     case 0: 
-        provider = new SolidColorProvider(solidColor);
+        provider = new SolidColorProvider(nextAttributes.colors);
         break;
     case 1: 
-        provider = new ColorInterpolator(start,finish);
+        provider = new ColorInterpolator(nextAttributes.colors);
         break;
     case 2:
         provider = new RandomColorProvider();
         break;
     case 3:
-        provider = new TwoColorSwapProvider(start,finish);
+        provider = new TwoColorSwapProvider(nextAttributes.colors);
         break;
-        */
-  }   
-}
+    }  
+}  
 
 void ScreenManager::setText(String text){
 

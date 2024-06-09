@@ -17,7 +17,7 @@ typedef struct {
 class ColorInterpolator : public ColorProvider{
     public:
       // Takes in color1, color2 in RGB format
-      ColorInterpolator(uint8_t* color1, uint8_t* color2);
+      ColorInterpolator(uint8_t** inputColors);
       // getColor() returns the color value in RGB format
       virtual uint8_t* getColor();
     private:
