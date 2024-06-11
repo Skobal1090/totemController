@@ -1,16 +1,16 @@
 #include "bleManager.h"
-#include "attributes.h"
+#include "../model/attributes.h"
 #include <ArduinoBLE.h>
 
 static BLEService totemService("6364e354-24f2-4048-881f-4943362d34d7"); // create service
 
 // create switch characteristic and allow remote device to read and write
 static BLEStringCharacteristic textCharacteristic("7504932b-317e-4bb8-9998-5d2f5f3d18b3", BLERead | BLEWrite, 512);
-static BLEByteCharacteristic attributesCharacteristic("0a704fd3-5dba-4194-9f40-ac8e2ab4ff06", BLERead | BLEWrite, 512);
+static BLECharacteristic attributesCharacteristic("0a704fd3-5dba-4194-9f40-ac8e2ab4ff06", BLERead | BLEWrite, 34);
 
 static void (*onConnected)();
 static void (*onDisconnected)();
-static void (*onAttributesUpdated)(Attributes);
+static void (*onAttributesUpdated)(uint8_t, uint8_t, uint8_t);
 static void (*onTextUpdated)(String);
 
 void connectionHandler(BLEDevice central) {
@@ -41,11 +41,11 @@ void textCharacteristicWritten(BLEDevice central, BLECharacteristic characterist
 }
 
 void attributesCharacteristicWritten(BLEDevice central, BLECharacteristic characteristic) {
-  uint8_t* val = attributesCharacteristic.value();
-  Serial.print("Attribute characteristic event, written: " + val);
+  const uint8_t* val = attributesCharacteristic.value();
+  Serial.print("Attribute characteristic event, written");
 
   if(onAttributesUpdated != NULL){
-    onAttributesUpdated(Attributes(val));
+    onAttributesUpdated(val[0], val[1], val[2]);
   }
 }
 
@@ -72,8 +72,6 @@ void BleManager::init(){
   attributesCharacteristic.setEventHandler(BLEWritten, attributesCharacteristicWritten);
   attributesCharacteristic.setValue("0,0,0");
 
-
-
   BLE.advertise();
   Serial.println(("Totem on the prowl..."));
 }
@@ -87,7 +85,7 @@ void BleManager::setConnectionListener(void (&connected)(), void (&disconnected)
   onDisconnected = disconnected;
 }
 
-void BleManager::setAttributesUpdatedListener(void (&attributesUpdated)(Attributes)){
+void BleManager::setAttributesUpdatedListener(void (&attributesUpdated)(uint8_t, uint8_t, uint8_t)){
   onAttributesUpdated = attributesUpdated;
 }
 

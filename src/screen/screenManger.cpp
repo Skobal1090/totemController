@@ -11,6 +11,7 @@
 
 static String displayText = "Connect Me!";
 static String nextText = displayText;
+static bool needsUpdate = false;
 
 static ColorProvider* displayProvider;
 static ColorProvider* nextProvider = displayProvider;
@@ -21,15 +22,15 @@ static uint8_t nextScrollSpeed = displayScrollSpeed;
 static uint8_t displayScrollMode;
 static uint8_t nextScrollMode = displayScrollMode;
 
-static uint8_t** nextColors[10];
+static uint8_t** nextColors = new uint8_t*[1]{new uint8_t[3]{255,255,255}};
 
-SolidColorProvider* solidColorProvider = new SolidColorProvider();
-ColorInterpolator* colorInterpolator = new ColorInterpolator();
-RandomColorProvider* randomColorProvider = new RandomColorProvider();
-TwoColorSwapProvider* twoColorSwapProvider = new TwoColorSwapProvider();
+static ColorProvider* solidColorProvider = new SolidColorProvider();
+static ColorProvider* colorInterpolator = new ColorInterpolator();
+static ColorProvider* randomColorProvider = new RandomColorProvider();
+static ColorProvider* twoColorSwapProvider = new TwoColorSwapProvider();
 
 static int cursorPos = 0;
-static Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, 7,
+static Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(64, 16, 7,
         NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
         NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
         NEO_GRB            + NEO_KHZ800);
@@ -39,9 +40,9 @@ void ScreenManager::init(){
     matrix.setTextWrap(false);
     //sets default matrix settings
     matrix.setBrightness(10);
-    cursorPos = 16;
-    displayProvider = solidColorProvider;
-    displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
+    cursorPos = 0;// matrix.width();
+    displayProvider = randomColorProvider;
+    //displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
 }
 
 void ScreenManager::update(){
@@ -53,16 +54,24 @@ void ScreenManager::update(){
     matrix.show();
     delay(50);
 
-    if(--cursorPos == -((displayText.length() + 1) * 6)){
+    /*f(--cursorPos == -((displayText.length() + 1) * 6)){
         cursorPos = matrix.width();
-        if(displayText != nextText){
+        if(needsUpdate){
             displayText = nextText;
+            displayScrollMode = nextScrollMode;
+            displayScrollSpeed = nextScrollSpeed;
+            displayProvider = nextProvider;
+            displayProvider->setColors(nextColors);
+            needsUpdate = false;
         }
-    }
+    }*/
 }
 
 void ScreenManager::setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t** colors){
-    
+    needsUpdate = true;
+    nextScrollMode = scrollMode;
+    nextScrollSpeed = scrollspeed;
+    nextColors = colors;
     switch(colorMode) {
     case 0: 
         nextProvider = solidColorProvider;
