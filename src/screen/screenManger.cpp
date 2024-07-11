@@ -40,9 +40,9 @@ void ScreenManager::init(){
     matrix.setTextWrap(false);
     //sets default matrix settings
     matrix.setBrightness(10);
-    cursorPos = 0;// matrix.width();
-    displayProvider = randomColorProvider;
-    //displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
+    cursorPos = matrix.width();
+    displayProvider = solidColorProvider;
+    displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
 }
 
 void ScreenManager::update(){
@@ -52,9 +52,9 @@ void ScreenManager::update(){
     uint8_t* currColor = displayProvider->getColor();
     matrix.setTextColor(matrix.Color(currColor[0], currColor[1], currColor[2]));
     matrix.show();
-    delay(50);
+    delay(20);
 
-    /*f(--cursorPos == -((displayText.length() + 1) * 6)){
+    if(--cursorPos == -((displayText.length() + 1) * 6)){
         cursorPos = matrix.width();
         if(needsUpdate){
             displayText = nextText;
@@ -64,7 +64,7 @@ void ScreenManager::update(){
             displayProvider->setColors(nextColors);
             needsUpdate = false;
         }
-    }*/
+    }
 }
 
 void ScreenManager::setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t** colors){
