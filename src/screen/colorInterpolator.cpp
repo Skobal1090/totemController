@@ -142,7 +142,7 @@ uint8_t* ColorInterpolator::getColor(){
   color[2] = conv.b;
   return color;
 }
-void ColorInterpolator::setColors(uint8_t** inputColors){
+void ColorInterpolator::setColors(uint8_t inputColors[2][3]){
     startColor = rgb2hsv((rgb){inputColors[0][0], inputColors[0][1], inputColors[0][2]});
     endColor = rgb2hsv((rgb){inputColors[1][0], inputColors[1][1], inputColors[1][2]});
     t = 0.0;

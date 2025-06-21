@@ -10,7 +10,7 @@ static BLECharacteristic attributesCharacteristic("0a704fd3-5dba-4194-9f40-ac8e2
 
 static void (*onConnected)();
 static void (*onDisconnected)();
-static void (*onAttributesUpdated)(uint8_t, uint8_t, uint8_t);
+static void (*onAttributesUpdated)(Attributes);
 static void (*onTextUpdated)(String);
 
 void connectionHandler(BLEDevice central) {
@@ -44,8 +44,15 @@ void attributesCharacteristicWritten(BLEDevice central, BLECharacteristic charac
   const uint8_t* val = attributesCharacteristic.value();
   Serial.print("Attribute characteristic event, written");
 
+  uint8_t* parms;
+
+  for(int i = 0; i < 3; i++){
+    parms[i] = val[i];
+  }
+
   if(onAttributesUpdated != NULL){
-    onAttributesUpdated(val[0], val[1], val[2]);
+    Attributes attrs(parms);
+    onAttributesUpdated(attrs);
   }
 }
 
@@ -85,7 +92,7 @@ void BleManager::setConnectionListener(void (&connected)(), void (&disconnected)
   onDisconnected = disconnected;
 }
 
-void BleManager::setAttributesUpdatedListener(void (&attributesUpdated)(uint8_t, uint8_t, uint8_t)){
+void BleManager::setAttributesUpdatedListener(void (&attributesUpdated)(Attributes)){
   onAttributesUpdated = attributesUpdated;
 }
 

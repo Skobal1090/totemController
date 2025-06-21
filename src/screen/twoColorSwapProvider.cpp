@@ -20,7 +20,7 @@ uint8_t* TwoColorSwapProvider::getColor(){
   return colors[selectedColor];
 }
 
-void TwoColorSwapProvider::setColors(uint8_t** inputColors){
+void TwoColorSwapProvider::setColors(uint8_t inputColors[2][3]){
   colors[0] = inputColors[0];
   colors[1] = inputColors[1];
 }
