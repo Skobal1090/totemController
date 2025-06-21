@@ -7,6 +7,6 @@ class TwoColorSwapProvider : public ColorProvider {
     //color1, color2 are passed in RGB format
     TwoColorSwapProvider();
     virtual uint8_t* getColor();
-    virtual void setColors(uint8_t** inputColors);
+    virtual void setColors(uint8_t inputColors[2][3]);
 };
 #endif

@@ -20,7 +20,7 @@ class ColorInterpolator : public ColorProvider{
       ColorInterpolator();
       // getColor() returns the color value in RGB format
       virtual uint8_t* getColor();
-      virtual void setColors(uint8_t** inputColors);
+      virtual void setColors(uint8_t inputColors[2][3]);
     private:
       hsv startColor;
       hsv endColor;

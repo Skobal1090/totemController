@@ -39,6 +39,6 @@ uint8_t* RandomColorProvider::getColor(){
   return randomColor;
 }
 
-void RandomColorProvider::setColors(uint8_t** inputColors){
+void RandomColorProvider::setColors(uint8_t inputColors[2][3]){
   
 }

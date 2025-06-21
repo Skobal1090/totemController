@@ -22,7 +22,7 @@ static uint8_t nextScrollSpeed = displayScrollSpeed;
 static uint8_t displayScrollMode;
 static uint8_t nextScrollMode = displayScrollMode;
 
-static uint8_t** nextColors = new uint8_t*[1]{new uint8_t[3]{255,255,255}};
+static uint8_t nextColors[2][3] = {{255,255,255}, {}};
 
 static ColorProvider* solidColorProvider = new SolidColorProvider();
 static ColorProvider* colorInterpolator = new ColorInterpolator();
@@ -42,7 +42,7 @@ void ScreenManager::init(){
     matrix.setBrightness(10);
     cursorPos = matrix.width();
     displayProvider = solidColorProvider;
-    displayProvider->setColors(new uint8_t*[1]{new uint8_t[3]{255,255,255}});
+    displayProvider->setColors(nextColors);
 }
 
 void ScreenManager::update(){
@@ -67,11 +67,17 @@ void ScreenManager::update(){
     }
 }
 
-void ScreenManager::setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t** colors){
+void ScreenManager::setAttributes(uint8_t scrollMode, uint8_t scrollspeed, uint8_t colorMode, uint8_t colors[2][3]){
     needsUpdate = true;
     nextScrollMode = scrollMode;
     nextScrollSpeed = scrollspeed;
-    nextColors = colors;
+
+    for(int i = 0; i < 2; i++){
+        for(int j = 0; j < 3; j++){
+            nextColors[i][j] = colors[i][j];
+        }
+    }
+
     switch(colorMode) {
     case 0: 
         nextProvider = solidColorProvider;

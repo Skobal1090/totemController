@@ -12,9 +12,8 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
 
-uint8_t start[] = { 0.0, 255.0, 0.0 };
-uint8_t finish[] = { 255.0, 0.0, 0.0 };
-uint8_t solidColor[] = { 0.0, 0.0, 255.0 };
+uint8_t colors[2][3] = {{ 0.0, 255.0, 0.0 }, { 255.0, 0.0, 0.0 }};
+uint8_t solidColor[2][3] = {{ 0.0, 0.0, 255.0 }, {}};
 
 int x    = matrix.width();
 String displayText = "Ayeeeeeeeeeeeeeeeee";
@@ -58,16 +57,19 @@ void setup(){
   int selectedColor = 3;//random(0,2);
   switch(selectedColor) {
     case 0: 
-      provider = new ColorInterpolator(start,finish);
+      provider = new ColorInterpolator();
+      provider->setColors(colors);
       break;
     case 1: 
-      provider = new SolidColorProvider(solidColor);
+      provider = new SolidColorProvider();
+      provider->setColors(solidColor);
       break;
     case 2:
       provider = new RandomColorProvider();
       break;
     case 3:
-      provider = new TwoColorSwapProvider(start,finish);
+      provider = new TwoColorSwapProvider();
+      provider->setColors(colors);
       break;
   }
 }
